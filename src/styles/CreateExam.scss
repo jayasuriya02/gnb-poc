@@ -1,0 +1,24 @@
+.create_exam {
+  .questions_section {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.create_exam_modal {
+  .input_box {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    label {
+      margin-right: 0.5rem;
+    }
+  }
+  .options_group {
+    .options_list {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}

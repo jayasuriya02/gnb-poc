@@ -1,22 +1,3 @@
 .button_wrapper button {
   margin-right: 2rem;
 }
-h1 {
-  margin-left: 5rem;
-}
-label{
-  margin-left: 5rem;
-  padding-top: 2rem;
-}
-.text-box{
-  margin-left: 5rem;
-  padding-right: 10rem;
-}
-.addquestions{
-  margin-top: 2rem;
-  margin-left: 5rem;
-  padding-right: 12rem;
-  display: flex;
-  justify-content: space-between;
-  margin-right: 40rem;
-}
