@@ -1,0 +1,50 @@
+{
+  "exams": [
+    {
+      "id": "ac479f20-effe-11ed-b82c-074002783fe5",
+      "title": "Kids Group Test"
+    }
+  ],
+  "questions": [
+    {
+      "id": "a1aa3ea0-efc8-11ed-ac30-5d1d21824d62",
+      "examId": "9fb8a7d0-efc8-11ed-ac30-5d1d21824d62",
+      "question": "What is 5 + 5",
+      "A": "7",
+      "B": "8",
+      "C": "9",
+      "D": "10",
+      "correct": "D"
+    },
+    {
+      "id": "f0120b20-efca-11ed-ac30-5d1d21824d62",
+      "examId": "d74a33b0-efca-11ed-ac30-5d1d21824d62",
+      "question": "What is 5-3",
+      "A": "4",
+      "B": "2",
+      "C": "1",
+      "D": "6",
+      "correct": "B"
+    },
+    {
+      "id": "cd84fd90-effe-11ed-b82c-074002783fe5",
+      "examId": "ac479f20-effe-11ed-b82c-074002783fe5",
+      "question": "What is 5+7?",
+      "A": "10",
+      "B": "11",
+      "C": "12",
+      "D": "13",
+      "correct": "C"
+    },
+    {
+      "id": "e5def800-effe-11ed-b82c-074002783fe5",
+      "examId": "ac479f20-effe-11ed-b82c-074002783fe5",
+      "question": "What is 6+9?",
+      "A": "10",
+      "B": "15",
+      "C": "20",
+      "D": "18",
+      "correct": "B"
+    }
+  ]
+}

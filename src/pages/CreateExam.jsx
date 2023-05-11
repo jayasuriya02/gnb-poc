@@ -1,37 +1,95 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 import Layout from '../Layout'
 import "../styles/CreateExam.scss"
+import { v1 as uuivd1 } from 'uuid'
+import { useNavigate } from 'react-router'
+
+const uniqueExamId = uuivd1()
+const initalVal = {
+  question: "",
+  A: "",
+  B: "",
+  C: "",
+  D: "",
+  correct: null,
+}
 
 const CreateExam = () => {
   const [show, setShow] = useState(false);
-  const [formData, setFormData] = useState({
-    question: "",
-    A: "",
-    B: "",
-    C: "",
-    D: "",
-    correct: null,
-  });
+  const [formData, setFormData] = useState(initalVal);
+  const [questions, setQuestions] = useState([]);
+  const [title, setTitle] = useState("");
+  const navigate = useNavigate();
 
+  const fetchData = () => {
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    };
+    fetch(`http://localhost:3030/questions?examId=${uniqueExamId}`, requestOptions).then(res => res.json()).then(res => setQuestions(res))
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleSubmit = () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: uuivd1(), examId: uniqueExamId, ...formData })
+    };
+    fetch("http://localhost:3030/questions", requestOptions).then(res => res.json()).then(() => fetchData())
+    setFormData(initalVal);
+    handleClose();
+  }
+
   const handleChange = (e) => setFormData(p => ({ ...p, [e.target.name]: e.target.value }));
+
+  const postExam = () => {
+    if (!title) {
+      return null;
+    }
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: uniqueExamId, title })
+    };
+    fetch("http://localhost:3030/exams", requestOptions).then(res => res.json()).finally(() => navigate("/"))
+  }
 
   return (
     <Layout>
       <div className='create_exam my-4'>
-        <h1 className='my-4'>Create Exam</h1>
+        <h1 className='my-4'>Fill exam information</h1>
         <form className='my-4'>
           <label htmlFor="examtitle"><h3>Exam Title</h3></label>
-          <input className="text-box form-control w-25" type="text" placeholder="" />
+          <input className="text-box form-control w-25" type="text" placeholder="Enter exam title" value={title} onChange={(e) => setTitle(e.target.value)} />
         </form>
-        <div className="questions_section my-4">
-          <h3>Question</h3>
-          <div className="button-add">
-            <Button variant="success" onClick={handleShow}>Add Question</Button>
-          </div>
+        <div className="button-add">
+          <Button variant="primary" className='me-4' onClick={handleShow}>Add Question</Button>
+          <Button variant="success" onClick={postExam}>Create Exam</Button>
         </div>
+        {questions && questions.length > 0 && <div className="question_wrapper">
+          <div className="questions_section my-4">
+            <h2>Questions</h2>
+          </div>
+          <div className="questions">
+            {questions.map(item => <div className="question" key={item.id}>
+              <h3>{item.question}</h3>
+              <h5>Options</h5>
+              <ul>
+                <li>{item.A}</li>
+                <li>{item.B}</li>
+                <li>{item.C}</li>
+                <li>{item.D}</li>
+              </ul>
+            </div>)}
+          </div>
+        </div>}
       </div>
       <Modal show={show} onHide={handleClose} className='create_exam_modal'>
         <Modal.Header closeButton>
@@ -84,7 +142,7 @@ const CreateExam = () => {
           <Button variant="primary" onClick={() => { console.log(formData); }}>
             Add next question
           </Button>
-          <Button variant="success" onClick={handleClose}>
+          <Button variant="success" onClick={handleSubmit}>
             Save Changes
           </Button>
         </Modal.Footer>
