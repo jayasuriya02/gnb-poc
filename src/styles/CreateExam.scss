@@ -3,6 +3,28 @@
     display: flex;
     justify-content: space-between;
   }
+  .question {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #80808094;
+    padding: 1rem 0;
+    ul {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: max-content;
+      list-style: none;
+      gap: 1rem;
+      padding: 0;
+      li {
+        padding: 0.5rem 1.5rem;
+        color: blueviolet;
+        border-radius: 20px;
+        width: 200px;
+        text-align: center;
+        border: 1px solid blueviolet;
+        transition: all 0.4s;
+      }
+    }
+  }
 }
 
 .create_exam_modal {

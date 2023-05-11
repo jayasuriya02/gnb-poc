@@ -5,7 +5,8 @@ import "../styles/CreateExam.scss"
 import { v1 as uuivd1 } from 'uuid'
 import { useNavigate } from 'react-router'
 
-const uniqueExamId = uuivd1()
+// const uniqueExamId = uuivd1()
+const uniqueExamId = "443ca170-f01f-11ed-a50c-098644cbf83f"
 const initalVal = {
   question: "",
   A: "",
@@ -44,7 +45,6 @@ const CreateExam = () => {
     };
     fetch("http://localhost:3030/questions", requestOptions).then(res => res.json()).then(() => fetchData())
     setFormData(initalVal);
-    handleClose();
   }
 
   const handleChange = (e) => setFormData(p => ({ ...p, [e.target.name]: e.target.value }));
@@ -78,10 +78,9 @@ const CreateExam = () => {
             <h2>Questions</h2>
           </div>
           <div className="questions">
-            {questions.map(item => <div className="question" key={item.id}>
-              <h3>{item.question}</h3>
-              <h5>Options</h5>
-              <ul>
+            {questions.map((item, i) => <div className="question" key={item.id}>
+              <h3>{i + 1}.&nbsp;{item.question}</h3>
+              <ul className='mt-3'>
                 <li>{item.A}</li>
                 <li>{item.B}</li>
                 <li>{item.C}</li>
@@ -139,10 +138,10 @@ const CreateExam = () => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => { console.log(formData); }}>
+          <Button variant="primary" onClick={() => { handleSubmit(); }}>
             Add next question
           </Button>
-          <Button variant="success" onClick={handleSubmit}>
+          <Button variant="success" onClick={() => { handleSubmit(); handleClose() }}>
             Save Changes
           </Button>
         </Modal.Footer>

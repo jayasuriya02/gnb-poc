@@ -3,6 +3,10 @@
     {
       "id": "ac479f20-effe-11ed-b82c-074002783fe5",
       "title": "Kids Group Test"
+    },
+    {
+      "id": "443ca170-f01f-11ed-a50c-098644cbf83f",
+      "title": "Kids Quiz"
     }
   ],
   "questions": [
@@ -44,6 +48,56 @@
       "B": "15",
       "C": "20",
       "D": "18",
+      "correct": "B"
+    },
+    {
+      "id": "51aaef50-f020-11ed-a50c-098644cbf83f",
+      "examId": "443ca170-f01f-11ed-a50c-098644cbf83f",
+      "question": "How many days in a week?",
+      "A": "3",
+      "B": "5",
+      "C": "7",
+      "D": "6",
+      "correct": "C"
+    },
+    {
+      "id": "691f1da0-f020-11ed-a50c-098644cbf83f",
+      "examId": "443ca170-f01f-11ed-a50c-098644cbf83f",
+      "question": "How many days in a month?",
+      "A": "31",
+      "B": "27",
+      "C": "28",
+      "D": "30",
+      "correct": "D"
+    },
+    {
+      "id": "e940abb0-f021-11ed-8c3a-43100b77a5c5",
+      "examId": "443ca170-f01f-11ed-a50c-098644cbf83f",
+      "question": "How many colors are there in a rainbow?",
+      "A": "4",
+      "B": "5",
+      "C": "7",
+      "D": "9",
+      "correct": "C"
+    },
+    {
+      "id": "f45ff920-f025-11ed-8ce3-3d775ece1f07",
+      "examId": "443ca170-f01f-11ed-a50c-098644cbf83f",
+      "question": "How many letters are there in the English alphabet?",
+      "A": "24",
+      "B": "25",
+      "C": "26",
+      "D": "27",
+      "correct": "C"
+    },
+    {
+      "id": "037312d0-f026-11ed-8ce3-3d775ece1f07",
+      "examId": "443ca170-f01f-11ed-a50c-098644cbf83f",
+      "question": " How many sides are there in a triangle?",
+      "A": "2",
+      "B": "3",
+      "C": "4",
+      "D": "5",
       "correct": "B"
     }
   ]
