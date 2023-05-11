@@ -98,7 +98,7 @@ const CreateExam = () => {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
-              <Form.Label>Question</Form.Label>
+              <Form.Label><h6>Question</h6></Form.Label>
               <Form.Control value={formData.question} name="question" onChange={handleChange} as="textarea" rows={3} />
             </Form.Group>
             <div className="options_group">

@@ -11,7 +11,7 @@ const Home = () => {
       <div className="button_wrapper">
         <div className="my-3">
           <Button variant="warning" onClick={() => navigate("/create-exam")}>Create Exam</Button>
-          <Button variant="success">Attend Exam</Button>
+          <Button variant="success" onClick={() => navigate("/attend-exam")}>Attend Exam</Button>
           <Button variant="info">Report</Button>
         </div>
       </div>
