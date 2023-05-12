@@ -1,14 +1,30 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Layout from '../Layout';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import "../styles/AttendExam.css"
+import { useNavigate } from 'react-router';
+
+const initalPersonalData = {
+  name: "",
+  age: null,
+  dob: null,
+}
 
 function AttendExam() {
-  const [show, setShow] = useState(false);
   const [examList, setExamList] = useState([]);
+  const [personalData, setPersonalData] = useState(initalPersonalData);
   const [exam, setExam] = useState(null);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const navigate = useNavigate();
+
+  const proceedToExam = () => {
+    const params = { ...personalData, examData: examList.find(e => e.id === exam) };
+    console.log(params);
+    localStorage.setItem("personInfo", JSON.stringify(params));
+    setPersonalData(initalPersonalData);
+    navigate("/exam")
+  }
+
+  const handleChange = (e) => setPersonalData(p => ({ ...p, [e.target.name]: e.target.value }));
 
   const fetchData = useCallback(() => {
     const requestOptions = {
@@ -43,55 +59,22 @@ function AttendExam() {
           <Form>
             <Form.Group className="my-2 mx-2" controlId="formGroupname">
               <Form.Label><h6>Name</h6></Form.Label>
-              <Form.Control type="text" />
+              <Form.Control type="text" value={personalData.name} name="name" onChange={handleChange} />
             </Form.Group>
             <Form.Group className="my-2 mx-2" controlId="formGroupage">
               <Form.Label><h6>Age</h6></Form.Label>
-              <Form.Control type="number" min="1" />
+              <Form.Control type="number" min="5" max="80" value={personalData.age} name="age" onChange={handleChange} />
             </Form.Group>
             <Form.Group className="my-2 mx-2" controlId="formGroupdob">
               <Form.Label><h6>DOB</h6></Form.Label>
-              <Form.Control type="date" />
+              <Form.Control type="date" value={personalData.dob} name="dob" onChange={handleChange} />
             </Form.Group>
           </Form>
-          <Button className='my-2' variant="primary" onClick={handleShow}>
+          <Button className='my-2' variant="primary" onClick={proceedToExam}>
             Proceed
           </Button>
         </div>
       }
-      {/* <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Fillup</Modal.Title>
-        </Modal.Header>
-        <div className='form_section p-3'>
-          <Form>
-            <Form.Group className="my-2 mx-2" controlId="formGroupname">
-              <Form.Label><h6>Name</h6></Form.Label>
-              <Form.Control type="text" />
-            </Form.Group>
-            <Form.Group className="my-2 mx-2" controlId="formGroupage">
-              <Form.Label><h6>Age</h6></Form.Label>
-              <Form.Control type="number" min="1" />
-            </Form.Group>
-            <Form.Group className="my-2 mx-2" controlId="formGroupdob">
-              <Form.Label><h6>DOB</h6></Form.Label>
-              <Form.Control type="date" />
-            </Form.Group>
-          </Form>
-
-        </div>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary">Proceed</Button>
-        </Modal.Footer>
-      </Modal> */}
     </Layout>
   );
 }
