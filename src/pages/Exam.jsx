@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../Layout'
 import { useNavigate } from 'react-router';
+import "../styles/Exam.scss"
 
 const Exam = () => {
   const [userData, setUserData] = useState([])
@@ -25,7 +26,7 @@ const Exam = () => {
       setUserData(ud);
       fetchData(ud.examData.id)
     }
-  }, [fetchData])
+  },[fetchData])
 
   return (
     <Layout><div className="exam_wrapper">
