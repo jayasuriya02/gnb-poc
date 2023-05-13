@@ -1,11 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../Layout'
 import { useNavigate } from 'react-router';
+import { v1 as uuivd1 } from 'uuid'
 import "../styles/Exam.scss"
+import { Alert, Button, Modal } from 'react-bootstrap';
 
 const Exam = () => {
   const [userData, setUserData] = useState([])
   const [questions, setQuestions] = useState([])
+  const [answers, setAnswers] = useState({});
+  const [error, setError] = useState("");
+  const [show, setShow] = useState(false);
+  const [summary, setSummary] = useState({});
   const navigate = useNavigate();
 
   const fetchData = useCallback((id) => {
@@ -26,7 +32,43 @@ const Exam = () => {
       setUserData(ud);
       fetchData(ud.examData.id)
     }
-  },[fetchData])
+  }, [fetchData])
+
+  const onSubmit =
+    () => {
+      let allPresent = true;
+      let count = 0
+      const totalQuestions = questions.length;
+      questions.map(i => {
+        if (!answers[i.id]) {
+          allPresent = false
+          return null;
+        }
+        const correctOption = i.correct;
+        if (answers[i.id] === i[correctOption]) {
+          count++;
+        }
+      })
+      if (!allPresent) {
+        setError("Please answer all questions");
+        return null;
+      }
+      const summaryInfo = {
+        totalQuestions,
+        correctAnswers: count,
+        percentage: (count / totalQuestions) * 100
+      }
+      setSummary(summaryInfo);
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: uuivd1(), examId: userData.examData.id, ...summaryInfo, answers, userData })
+      };
+      fetch("http://localhost:3030/report", requestOptions).then(res => res.json())
+      setShow(true);
+      localStorage.removeItem("personInfo")
+    }
+
 
   return (
     <Layout><div className="exam_wrapper">
@@ -39,13 +81,47 @@ const Exam = () => {
           {questions.map((item, i) => <div className="question" key={item.id}>
             <h3>{i + 1}.&nbsp;{item.question}</h3>
             <ul className='mt-3'>
-              <li>{item.A}</li>
-              <li>{item.B}</li>
-              <li>{item.C}</li>
-              <li>{item.D}</li>
+              <li onClick={() => setAnswers(prev => ({ ...prev, [item.id]: item.A }))}
+                className={`${answers?.[item.id] === item.A ? "active" : ""}`}
+              >{item.A}</li>
+              <li onClick={() => setAnswers(prev => ({ ...prev, [item.id]: item.B }))}
+                className={`${answers?.[item.id] === item.B ? "active" : ""}`}
+              >{item.B}</li>
+              <li onClick={() => setAnswers(prev => ({ ...prev, [item.id]: item.C }))}
+                className={`${answers?.[item.id] === item.C ? "active" : ""}`}
+              >{item.C}</li>
+              <li onClick={() => setAnswers(prev => ({ ...prev, [item.id]: item.D }))}
+                className={`${answers?.[item.id] === item.D ? "active" : ""}`}
+              >{item.D}</li>
             </ul>
           </div>)}
         </div>
+        {error && <Alert variant="danger">
+          {error}
+        </Alert>}
+        <Button className='my-2' variant="primary" onClick={onSubmit}>
+          Submit exam
+        </Button>
+        <Modal show={show} onHide={() => { setShow(false); navigate("/"); }} className='exam_result_modal'>
+          <Modal.Header closeButton>
+            <Modal.Title>Exam result</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <table className='table'>
+              <tr><td>Total questions</td>
+                <td>{summary.totalQuestions}</td></tr>
+              <tr><td>Correct answers</td>
+                <td>{summary.correctAnswers}</td></tr>
+              <tr><td>Percentage</td>
+                <td>{summary.percentage}%</td></tr>
+            </table>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="success" onClick={() => { setShow(false); navigate("/"); }}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>}
     </div></Layout>
   )

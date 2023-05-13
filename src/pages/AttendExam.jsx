@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Layout from '../Layout';
-import { Button, Form } from 'react-bootstrap';
+import { Alert, Button, Form } from 'react-bootstrap';
 import "../styles/AttendExam.css"
 import { useNavigate } from 'react-router';
 
@@ -14,9 +14,16 @@ function AttendExam() {
   const [examList, setExamList] = useState([]);
   const [personalData, setPersonalData] = useState(initalPersonalData);
   const [exam, setExam] = useState(null);
+  const [error, setError] = useState("")
   const navigate = useNavigate();
 
   const proceedToExam = () => {
+    if (!personalData?.name || !personalData?.age || !personalData?.dob) {
+      setError("Please fill all fields.")
+    }
+    if (personalData.age < 5 || personalData.age > 80) {
+      setError("Age should be between 5 and 80.")
+    }
     const params = { ...personalData, examData: examList.find(e => e.id === exam) };
     console.log(params);
     localStorage.setItem("personInfo", JSON.stringify(params));
@@ -70,6 +77,9 @@ function AttendExam() {
               <Form.Control type="date" value={personalData.dob} name="dob" onChange={handleChange} />
             </Form.Group>
           </Form>
+          {error && <Alert variant="danger">
+            {error}
+          </Alert>}
           <Button className='my-2' variant="primary" onClick={proceedToExam}>
             Proceed
           </Button>

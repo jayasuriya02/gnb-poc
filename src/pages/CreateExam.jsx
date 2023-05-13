@@ -5,8 +5,8 @@ import "../styles/CreateExam.scss"
 import { v1 as uuivd1 } from 'uuid'
 import { useNavigate } from 'react-router'
 
-// const uniqueExamId = uuivd1()
-const uniqueExamId = "443ca170-f01f-11ed-a50c-098644cbf83f"
+const uniqueExamId = uuivd1()
+// const uniqueExamId = "443ca170-f01f-11ed-a50c-098644cbf83f"
 const initalVal = {
   question: "",
   A: "",
