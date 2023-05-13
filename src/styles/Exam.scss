@@ -33,6 +33,32 @@
           color: #fff;
         }
       }
+      &.no-hover {
+        li {
+          &:hover {
+            background-color: transparent;
+            color: blueviolet;
+          }
+          &.active {
+            &:hover {
+              background-color: blueviolet;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.exam_result_modal {
+  .result_table {
+    tr {
+      td {
+        &:first-child {
+          font-size: 1.125rem;
+          font-weight: 600;
+        }
+      }
     }
   }
 }

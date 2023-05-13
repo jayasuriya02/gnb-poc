@@ -107,7 +107,7 @@ const Exam = () => {
             <Modal.Title>Exam result</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <table className='table'>
+            <table className='table result_table'>
               <tr><td>Total questions</td>
                 <td>{summary.totalQuestions}</td></tr>
               <tr><td>Correct answers</td>

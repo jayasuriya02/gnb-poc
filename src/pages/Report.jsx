@@ -1,11 +1,14 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import Layout from '../Layout'
 import "../styles/Report.css"
-import { Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { groupBy } from 'lodash';
+import { useNavigate } from 'react-router';
 
 function Report() {
   const [reportData, setReportData] = useState();
+  const [popup, setPopup] = useState(null);
+  const navigate = useNavigate();
 
   const fetchData = useCallback(() => {
     const requestOptions = {
@@ -49,14 +52,53 @@ function Report() {
               <td>{firstData.userData.examData.title}</td>
               <td>{totalQuestions}</td>
               <td>{totalAttendees}</td>
-              <td>{averageCorrectAns}</td>
-              <td><Button variant="primary">
+              <td>{Math.round(averageCorrectAns)}</td>
+              <td><Button variant="primary" onClick={() => setPopup(item)}>
                 View answers
               </Button></td>
             </tr>)
           }) : <></>}
         </tbody>
       </table>
+      <Modal show={!!popup} onHide={() => { setPopup(null); }} className='answer_modal' centered>
+        <Modal.Header closeButton>
+          <Modal.Title>View answers</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <table className='table'>
+            <thead style={{ fontSize: "1.25rem", fontWeight: 600 }}>
+              <tr>
+                <td>S.no</td>
+                <td>Name</td>
+                <td>Total questions</td>
+                <td>Total correct answers</td>
+                <td>Percentage</td>
+                <td>View</td>
+              </tr>
+            </thead>
+            <tbody>
+              {popup && popup.length > 0 ? popup.map((item, index) => {
+
+                return (<tr key={item.id}>
+                  <td>{index + 1}</td>
+                  <td>{item.userData.name}</td>
+                  <td>{item.totalQuestions}</td>
+                  <td>{item.correctAnswers}</td>
+                  <td>{(item.correctAnswers / item.totalQuestions) * 100}%</td>
+                  <td><Button variant="primary" onClick={() => navigate(`/answers/${item.examId}`)}>
+                    View answers
+                  </Button></td>
+                </tr>)
+              }) : <></>}
+            </tbody>
+          </table>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="success" onClick={() => { setPopup(null) }}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Layout>
   )
 }

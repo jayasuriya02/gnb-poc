@@ -1,3 +1,10 @@
-.Title_report{
-    margin-top: 1rem;
+.Title_report {
+  margin-top: 1rem;
+}
+
+.answer_modal .modal-content {
+  width: max-content;
+}
+.answer_modal .modal-body {
+  width: max-content;
 }

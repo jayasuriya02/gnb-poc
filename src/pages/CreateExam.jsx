@@ -13,7 +13,7 @@ const initalVal = {
   B: "",
   C: "",
   D: "",
-  correct: null,
+  correct: "empty",
 }
 
 const CreateExam = () => {
@@ -124,7 +124,7 @@ const CreateExam = () => {
             <div className="correct_option">
               <h6>Correct option</h6>
               <Form.Select aria-label="Correct option" name='correct' onChange={handleChange} value={formData.correct}>
-                <option>Select option</option>
+                <option value="empty" disabled>Select option</option>
                 <option value="A">A</option>
                 <option value="B">B</option>
                 <option value="C">C</option>
