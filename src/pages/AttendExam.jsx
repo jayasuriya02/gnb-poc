@@ -20,15 +20,17 @@ function AttendExam() {
   const proceedToExam = () => {
     if (!personalData?.name || !personalData?.age || !personalData?.dob) {
       setError("Please fill all fields.")
+      return null;
     }
     if (personalData.age < 5 || personalData.age > 80) {
       setError("Age should be between 5 and 80.")
+      return null;
     }
     const params = { ...personalData, examData: examList.find(e => e.id === exam) };
-    console.log(params);
     localStorage.setItem("personInfo", JSON.stringify(params));
     setPersonalData(initalPersonalData);
     navigate("/exam")
+    return null;
   }
 
   const handleChange = (e) => setPersonalData(p => ({ ...p, [e.target.name]: e.target.value }));
@@ -77,7 +79,7 @@ function AttendExam() {
               <Form.Control type="date" value={personalData.dob} name="dob" onChange={handleChange} />
             </Form.Group>
           </Form>
-          {error && <Alert variant="danger">
+          {error && <Alert variant="danger" className='mt-3'>
             {error}
           </Alert>}
           <Button className='my-2' variant="primary" onClick={proceedToExam}>

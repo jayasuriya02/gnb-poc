@@ -78,13 +78,13 @@ function Report() {
             </thead>
             <tbody>
               {popup && popup.length > 0 ? popup.map((item, index) => {
-
+                const percent = (item.correctAnswers / item.totalQuestions) * 100;
                 return (<tr key={item.id}>
                   <td>{index + 1}</td>
                   <td>{item.userData.name}</td>
                   <td>{item.totalQuestions}</td>
                   <td>{item.correctAnswers}</td>
-                  <td>{(item.correctAnswers / item.totalQuestions) * 100}%</td>
+                  <td>{percent.toFixed(2)}%</td>
                   <td><Button variant="primary" onClick={() => navigate(`/answers/${item.examId}`)}>
                     View answers
                   </Button></td>

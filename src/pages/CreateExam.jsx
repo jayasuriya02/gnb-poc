@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 import Layout from '../Layout'
 import "../styles/CreateExam.scss"
 import { v1 as uuivd1 } from 'uuid'
 import { useNavigate } from 'react-router'
 
-const uniqueExamId = uuivd1()
+// const uniqueExamId = uuivd1()
 // const uniqueExamId = "443ca170-f01f-11ed-a50c-098644cbf83f"
 const initalVal = {
   question: "",
@@ -21,19 +21,30 @@ const CreateExam = () => {
   const [formData, setFormData] = useState(initalVal);
   const [questions, setQuestions] = useState([]);
   const [title, setTitle] = useState("");
+  const [uniqueExamId, setUniqueExamId] = useState("");
   const navigate = useNavigate();
 
-  const fetchData = () => {
+  const fetchData = useCallback(() => {
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     };
-    fetch(`http://localhost:3030/questions?examId=${uniqueExamId}`, requestOptions).then(res => res.json()).then(res => setQuestions(res))
-  }
+    if (uniqueExamId) {
+      fetch(`http://localhost:3030/questions?examId=${uniqueExamId}`, requestOptions).then(res => res.json()).then(res => setQuestions(res))
+    }
+  }, [uniqueExamId]);
+
+  const generateNewId = useCallback(() => {
+    setUniqueExamId(uuivd1())
+  }, []);
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    if (!uniqueExamId) {
+      generateNewId();
+      fetchData();
+    }
+  }, [generateNewId, fetchData, uniqueExamId])
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -58,7 +69,10 @@ const CreateExam = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: uniqueExamId, title })
     };
-    fetch("http://localhost:3030/exams", requestOptions).then(res => res.json()).finally(() => navigate("/"))
+    fetch("http://localhost:3030/exams", requestOptions).then(res => res.json()).finally(() => {
+      generateNewId();
+      navigate("/")
+    })
   }
 
   return (

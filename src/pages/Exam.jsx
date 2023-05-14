@@ -32,7 +32,7 @@ const Exam = () => {
       setUserData(ud);
       fetchData(ud.examData.id)
     }
-  }, [fetchData])
+  }, [fetchData, navigate])
 
   const onSubmit =
     () => {
@@ -48,6 +48,7 @@ const Exam = () => {
         if (answers[i.id] === i[correctOption]) {
           count++;
         }
+        return null;
       })
       if (!allPresent) {
         setError("Please answer all questions");
@@ -113,7 +114,7 @@ const Exam = () => {
               <tr><td>Correct answers</td>
                 <td>{summary.correctAnswers}</td></tr>
               <tr><td>Percentage</td>
-                <td>{summary.percentage}%</td></tr>
+                <td>{summary.percentage?.toFixed(2)}%</td></tr>
             </table>
           </Modal.Body>
           <Modal.Footer>
