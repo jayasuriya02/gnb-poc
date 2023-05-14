@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Button, Form, Modal } from 'react-bootstrap'
+import { Alert, Button, Form, Modal } from 'react-bootstrap'
 import Layout from '../Layout'
 import "../styles/CreateExam.scss"
 import { v1 as uuivd1 } from 'uuid'
@@ -22,6 +22,7 @@ const CreateExam = () => {
   const [questions, setQuestions] = useState([]);
   const [title, setTitle] = useState("");
   const [uniqueExamId, setUniqueExamId] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const fetchData = useCallback(() => {
@@ -62,7 +63,13 @@ const CreateExam = () => {
 
   const postExam = () => {
     if (!title) {
+      setError("Please enter title.");
       return null;
+    }
+    if (questions && questions.length < 1) {
+      setError("Please add questions.");
+      return null;
+
     }
     const requestOptions = {
       method: 'POST',
@@ -83,6 +90,9 @@ const CreateExam = () => {
           <label htmlFor="examtitle"><h3>Exam Title</h3></label>
           <input className="text-box form-control w-25" type="text" placeholder="Enter exam title" value={title} onChange={(e) => setTitle(e.target.value)} />
         </form>
+        {error && <Alert variant="danger" className="my-3">
+          {error}
+        </Alert>}
         <div className="button-add">
           <Button variant="primary" className='me-4' onClick={handleShow}>Add Question</Button>
           <Button variant="success" onClick={postExam}>Create Exam</Button>
